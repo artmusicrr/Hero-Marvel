@@ -25,7 +25,12 @@ interface DetailHeroType {
     extension: string;
   };
   resourceURI: string;
-  comics: {};
+  comics: {
+    items: [{
+      name: string;
+      resourceURI: string;
+    }]
+  };
   series: {};
   stories: {};
 }
@@ -42,6 +47,10 @@ export default function DetailHero() {
     MarvelApi.getDetailCharacters(params.id, (heroDetail: any) => {
       detail = heroDetail.data.data.results;
       setDetailHero(detail);
+
+
+      
+
     });
   }, []);
 
@@ -60,6 +69,17 @@ export default function DetailHero() {
                 uri: `${item.thumbnail.path}.${item.thumbnail.extension}`,
               }}
             />
+<View style={styles.nameComic}>
+                {
+                  item.comics.items.map((comic, index)=> {
+                    return(
+                      <Text style={styles.textComic} key={ index} > {comic.name} </Text>
+                    )
+
+                  })
+                }
+</View>
+
           </View>
         );
       })}
@@ -90,6 +110,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 22,
   },
+  nameComic: {
+    lineHeight: 20,
+    marginTop: 10,
+    textAlign: "left",
+    padding: 20,
+  },
+  textComic: {
+    fontSize: 18,
+    fontFamily: 'Oswald_500Medium',
+    color: "#1E0A40",
+  },
+
+  
 
   descriptionHero: {
     fontFamily: 'Oswald_500Medium',
